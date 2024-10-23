@@ -21,6 +21,8 @@ class user_model():
          if len(result)>0:
             return json.dumps(result)
          else: return "NO DATA FOUND"
+    def update_user_mode(self):
+        return make_response({"message":"UPDATED SUCCESSFULLY"})
     def delete_user_model(self, id):
         print(id)
         self.users=[]

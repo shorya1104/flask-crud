@@ -19,6 +19,10 @@ def adduser():
             abort(400)  # Bad request if any field is missing
     return obj.add_new_users(request.form)
 
+@app.route("/user/update", methods=["PUT"])
+def updateuser():
+    return obj.update_user_mode(request.form)
+
 @app.route("/users/delete/<id>", methods=["DELETE"])
 def delete_users(id):
     return obj.delete_user_model(id)
