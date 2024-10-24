@@ -20,7 +20,7 @@ def adduser():
     return obj.add_new_users(request.form)
 
 @app.route("/user/update", methods=["PUT"])
-def updateuser():
+def update_user():
     return obj.update_user_mode(request.form)
 
 @app.route("/users/delete/<id>", methods=["DELETE"])
