@@ -41,4 +41,19 @@ class user_model():
         if self.db.cursor.rowcount>0:
             return make_response({"message":"User details updated successful"},201)
         else: return make_response({"message":"NOTHING TO UPDATE"},202)
-        
+    def user_pagination_model(self,limit,page_no):
+        limit = int(limit)
+        page_no = int(page_no)
+        start_pont=(page_no*limit)-limit
+        qry=f"SELECT * FROM users LIMIT {start_pont}, {limit}"
+        self.db.cursor.execute(qry)
+        result = self.db.cursor.fetchall()
+        if len(result)>0:
+            res = make_response({"payload":result, "page_no":page_no, "limit":limit}, 200)
+            return res
+        else: return make_response({"message":"NO DATA FOUND"},204)
+    def uploaded_file_save_db(self, uid, path):
+        self.db.cursor.execute(f"UPDATE users SET avatar='{path}' WHERE id = {uid}")
+        if self.db.cursor.rowcount>0:
+            return make_response({"message": "File uploaded and path saved in db"},201)
+        else: make_response({"message": "Nothing to update"},202)
