@@ -29,4 +29,4 @@ def delete_users(id):
 
 @app.route("/users/patch/<id>", methods=["PATCH"])
 def patch_users(id):
-    return obj.delete_user_model(id)
+    return obj.patch_user_model(request.form, id)
