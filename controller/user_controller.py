@@ -4,8 +4,8 @@ from model.user_model import user_model
 from flask import request, jsonify, abort, send_file
 from db_connect import db_connect
 from datetime import datetime
-obj=user_model()
 
+obj=user_model()
 @app.route('/users')
 def get_all_users():
     return obj.fetch_all_users()
