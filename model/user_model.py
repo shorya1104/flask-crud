@@ -11,7 +11,7 @@ class user_model():
         # Check using list comprehension
         matches = [entry for entry in check_user_entry if entry['name'] == data["name"] and entry['email'] == data["email"]]
         if matches:
-            return make_response({"message":"Email and Name already exists."},400)
+            return make_response({"message":"Email and Name already exists."},409)
         else: 
             self.db.cursor.execute(f"INSERT INTO users(name, email, phone, age, password, role) VALUES('{data['name']}', '{data['email']}', '{data['age']}', '{data['phone']}','{data['password']}', '{data['role']}')")
             return make_response({"message":"CREATED SUCCESSFULLY"},201)

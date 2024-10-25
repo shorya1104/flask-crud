@@ -4,7 +4,7 @@ from model.user_model import user_model
 from flask import request, jsonify, abort, send_file,make_response
 from db_connect import db_connect
 from datetime import datetime
-from  validators import validate_user, ValidationError
+from  validators import validate_user, ValidationError, validate_user_update
 
 obj=user_model()
 @app.route('/users')
@@ -15,7 +15,7 @@ def get_all_users():
 def get_single_users(id):
     return obj.fetch_single_user(id)
 
-@app.route("/user/adduser", methods=["POST"])
+@app.route("/user/signup", methods=["POST"])
 def adduser():
     user_data=request.form
     try:
@@ -23,7 +23,6 @@ def adduser():
     except ValidationError as err:
         return make_response({"message":err.messages}), 400
     return obj.add_new_users(request.form)
-
 
 @app.route("/user/update", methods=["PUT"])
 def update_user():
@@ -35,7 +34,11 @@ def delete_users(id):
 
 @app.route("/users/patch/<id>", methods=["PATCH"])
 def patch_users(id):
-    return obj.patch_user_model(request.form, id)
+    try:
+        validated_data = validate_user_update(request.form)
+    except ValidationError as err:
+        return make_response({"message":err.messages}), 400
+    return obj.patch_user_model(request.form,id)
 
 # data table pagination
 @app.route("/user/getall/limit/<limit>/page/<page_no>",methods=["GET"])
