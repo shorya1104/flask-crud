@@ -6,9 +6,15 @@ class user_model():
         self.db=db_connect()
         self.users=[]
     def add_new_users(self,data):
-        print(data['name'])
-        self.db.cursor.execute(f"INSERT INTO users(name, email, phone, age, password, role) VALUES('{data['name']}', '{data['email']}', '{data['age']}', '{data['phone']}','{data['password']}', '{data['role']}')")
-        return make_response({"message":"CREATED SUCCESSFULLY"},201)
+        self.db.cursor.execute("SELECT * FROM users")
+        check_user_entry=self.db.cursor.fetchall()
+        # Check using list comprehension
+        matches = [entry for entry in check_user_entry if entry['name'] == data["name"] and entry['email'] == data["email"]]
+        if matches:
+            return make_response({"message":"Email and Name already exists."},400)
+        else: 
+            self.db.cursor.execute(f"INSERT INTO users(name, email, phone, age, password, role) VALUES('{data['name']}', '{data['email']}', '{data['age']}', '{data['phone']}','{data['password']}', '{data['role']}')")
+            return make_response({"message":"CREATED SUCCESSFULLY"},201)
     def fetch_all_users(self):
          self.db.cursor.execute("SELECT * FROM users")
          result=self.db.cursor.fetchall()
