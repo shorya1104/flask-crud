@@ -16,10 +16,9 @@ def get_single_users(id):
     return obj.fetch_single_user(id)
 
 @app.route("/user/signup", methods=["POST"])
-def adduser():
-    user_data=request.form
+def signup():
     try:
-        validated_data = validate_user(user_data)
+        validated_data = validate_user(request.form)
     except ValidationError as err:
         return make_response({"message":err.messages}), 400
     return obj.add_new_users(request.form)

@@ -13,7 +13,7 @@ class user_model():
         if matches:
             return make_response({"message":"Email and Name already exists."},409)
         else: 
-            self.db.cursor.execute(f"INSERT INTO users(name, email, phone, age, password, role) VALUES('{data['name']}', '{data['email']}', '{data['age']}', '{data['phone']}','{data['password']}', '{data['role']}')")
+            self.db.cursor.execute(f"INSERT INTO users(name, email, phone, age, password, role) VALUES('{data['name']}', '{data['email']}', '{data['phone']}', '{data['age']}','{data['password']}', '{data['role']}')")
             return make_response({"message":"CREATED SUCCESSFULLY"},201)
     def fetch_all_users(self):
          self.db.cursor.execute("SELECT * FROM users")
